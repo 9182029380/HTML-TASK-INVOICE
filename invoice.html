@@ -41,6 +41,16 @@
         .form-group {
             flex: 1;
         }
+        .details-row {
+            display: flex;
+            justify-content: space-between; /* Adjusts spacing between columns */
+        }
+
+        .details-column {
+            margin-right: 20px; /* Space between the two columns */
+            flex: 1; /* Makes columns take equal space */
+        }
+
 
         .details-box {
             border: 1px solid #ddd;
@@ -189,12 +199,13 @@
                         <select id="rateType" required>
                             <option value="hourly">Hourly Rate</option>
                             <option value="daily">Daily Rate</option>
+							<option value="Monthly">Month Rate</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="quantity">Number of Hours/Days:</label>
+                        <label for="quantity">Number of Hours/Days/Months:</label>
                         <input type="number" id="quantity" required>
                     </div>
                     <div class="form-group">
@@ -220,7 +231,18 @@
                         <input type="text" id="ifscCode" required>
                     </div>
                 </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bankAddress">Bank Address:</label>
+                        <input type="text" id="bankAddress" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="panNumber">PAN Number:</label>
+                        <input type="text" id="panNumber" required>
+                    </div>
+                </div>
             </div>
+            
 
             <button type="submit">Generate Invoice</button>
         </form>
@@ -278,10 +300,19 @@
 
             <div class="bank-details">
                 <h3>Bank Details</h3>
-                <p><strong>Bank Name:</strong> <span id="displayBankName"></span></p>
-                <p><strong>Account No:</strong> <span id="displayAccountNo"></span></p>
-                <p><strong>IFSC Code:</strong> <span id="displayIfscCode"></span></p>
+                <div class="details-row">
+                    <div class="details-column">
+                        <p><strong>Bank Name:</strong> <span id="displayBankName"></span></p>
+                        <p><strong>Account No:</strong> <span id="displayAccountNo"></span></p>
+                        <p><strong>IFSC Code:</strong> <span id="displayIfscCode"></span></p>
+                    </div>
+                    <div class="details-column">
+                        <p><strong>Bank Address:</strong> <span id="displayBankAddress"></span></p>
+                        <p><strong>PAN Number:</strong> <span id="displayPanNumber"></span></p>
+                    </div>
+                </div>
             </div>
+            
 
             <div class="signature">
                 <p>(Signature)</p>
@@ -326,6 +357,8 @@
             const bankName = document.getElementById('bankName').value;
             const accountNo = document.getElementById('accountNo').value;
             const ifscCode = document.getElementById('ifscCode').value;
+            const bankAddress = document.getElementById('bankAddress').value; 
+            const panNumber = document.getElementById('panNumber').value
 
             // Calculate amount
             const amount = quantity * rate;
@@ -340,9 +373,9 @@
             document.getElementById('displayCompanyName').textContent = companyName;
             document.getElementById('displayCompanyAddress').textContent = companyAddress;
             document.getElementById('displayTrainerName').textContent = trainerName;
-            document.getElementById('displayTrainerName2').textContent = trainerName;
+            document.getElementById('displayTrainerName2').textContent = companyName;
             document.getElementById('displayDescription').textContent = description;
-            document.getElementById('displayQuantity').textContent = `${quantity} ${rateType === 'hourly' ? 'Hours' : 'Days'}`;
+            document.getElementById('displayQuantity').textContent = `${quantity} ${rateType === 'hourly' ? 'Hours' : rateType === 'daily' ? 'Days' : 'Months'}`;
             document.getElementById('displayRate').textContent = rate;
             document.getElementById('displayAmount').textContent = amount;
             document.getElementById('displayTotal').textContent = amount;
@@ -350,6 +383,10 @@
             document.getElementById('displayBankName').textContent = bankName;
             document.getElementById('displayAccountNo').textContent = accountNo;
             document.getElementById('displayIfscCode').textContent = ifscCode;
+            document.getElementById('displayAccountNo').textContent = accountNo;
+            document.getElementById('displayIfscCode').textContent = ifscCode;
+            document.getElementById('displayBankAddress').textContent = bankAddress; 
+            document.getElementById('displayPanNumber').textContent = panNumber;
 
             // Hide form and show invoice
             document.getElementById('invoiceForm').style.display = 'none';
